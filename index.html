@@ -1,13 +1,65 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" ng-app="myApp">
 
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=1920" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <title>a</title>
         <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <script>
-        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+        <script src="/js/lib/jquery-1.9.1.min.js"></script>
+        <script src="/js/lib/jquery.cookie.js"></script>
+        <script src="/js/lib/jquery.easing.1.3.js"></script>
+        <script src="/js/lib/jquery.transform.js"></script>
+        <script src="/js/lib/angular.min.js"></script>
+        <script src="/js/syworks.design.customTags.js"></script>
+        <script src="/js/syworks.design.plugin.js"></script>
+        <script src="/js/mainGridHtmlPars.js"></script>
+        <script src="/js/myAppDataPars.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $(this).customTags();
+            var laypop = {
+                el: '.layPop',
+                dimm: '.dimm',
+                btnDef: '.layBtnDefClose',
+                btn: '.layBtnClose',
+                bool: true,
+                init: function() {
+                    this.show(true);
+                    this.bind();
+                },
+                bind: function() {
+                    var _this = this;
+                    $(this.btnDef + ',' + this.btn).on({
+                        'click': function() {
+                            if (event.target == $(_this.btnDef)[0]) {
+                                $.cookie('laypop', false);
+                            }
+                            _this.show(false);
+                        },
+                    });
+                },
+                show: function(bool) {
+                    if (bool) {
+                        $(this.el).show().stop().animate({
+                            'opacity': 1
+                        });
+                        $(this.dimm).show().stop().animate({
+                            'opacity': .95
+                        });
+                    } else {
+                        $(this.el + ',' + this.dimm).stop().animate({
+                            'opacity': 0
+                        }, {
+                            complete: function() {
+                                $(this).hide();
+                            }
+                        });
+                    }
+                },
+            };
+            if ($.cookie('laypop') != 'false') laypop.init();
+        });
         </script>
         <!--[if lt IE 9]>
           <script type='text/javascript' src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -17,7 +69,7 @@
     </head>
 
     <body>
-        <div class="wrap">
+        <div class="wrap" ng-controller="myAppNgFun">
             <div class="gnb">
                 <a href="javascript:;" title="메뉴" class="menu_btn active"></a>
                 <ul class="gnb_list">
@@ -39,7 +91,7 @@
                         <ul class="lnb_list">
                             <li class="lst lst01">
                                 <a href="javascript:;" class="mn">
-                                    <span class="txt">(주)싸이웍스</span>
+                                    <span class="txt">(주)싸이웍스{{pfName}}</span>
                                     <i class="num">3</i>
                                 </a>
                             </li>
@@ -48,6 +100,14 @@
                                     <span class="txt">(주)UIVISTA</span>
                                     <i class="num">3</i>
                                 </a>
+                                <ul class="mob_sidelst">
+                                    <li>
+                                        <a href="#">한의연-미병</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">강남대학교-토탈솔루션</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="lst lst03 ">
                                 <a href="javascript:;" class="mn">
@@ -85,81 +145,40 @@
                         <span class="txt">(주)UIVISTA</span> - Items List
                     </h3>
                     <ul class="sside_list">
-                        <li class="lst">
-                            <a href="javascript:;" class="item" title="포트폴리오1">
+                        <li class="lst" ng-repeat="pflist in pfListTit">
+                            <a href="javascript:;" ng-click="aaaaa(pflist)" class="item">
                                 <div class="item_bx">
                                     <div class="img_area">
                                         <i class="dot"></i>
                                         <span class="img">
-                                            <img src="/images/sample.png" alt="" />
+                                            <img src="{{pflist.thumb ? pflist.thumb : errImg}}" alt="" />
                                         </span>
                                     </div>
                                     <dl class="txt_list">
-                                        <dt>한의연-미병</dt>
-                                        <dd>이 어플리케이션은 일상 생활에서이 어플리케이션은 일상 생활에서</dd>
-                                    </dl>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="lst">
-                            <a href="javascript:;" class="item" title="포트폴리오1">
-                                <div class="item_bx">
-                                    <div class="img_area">
-                                        <i class="dot"></i>
-                                        <span class="img">
-                                            <img src="/images/sample.png" alt="" />
-                                        </span>
-                                    </div>
-                                    <dl class="txt_list">
-                                        <dt>한의연-미병</dt>
-                                        <dd>이 어플리케이션은 일상 생활에서이 어플리케이션은 일상 생활에서</dd>
-                                    </dl>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="lst">
-                            <a href="javascript:;" class="item" title="포트폴리오1">
-                                <div class="item_bx">
-                                    <div class="img_area">
-                                        <i class="dot"></i>
-                                        <span class="img">
-                                            <img src="/images/sample.png" alt="" />
-                                        </span>
-                                    </div>
-                                    <dl class="txt_list">
-                                        <dt>한의연-미병</dt>
-                                        <dd>이 어플리케이션은 일상 생활에서이 어플리케이션은 일상 생활에서</dd>
-                                    </dl>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="lst active">
-                            <a href="javascript:;" class="item" title="포트폴리오1">
-                                <div class="item_bx">
-                                    <div class="img_area">
-                                        <i class="dot"></i>
-                                        <span class="img">
-                                            <img src="/images/sample.png" alt="" />
-                                        </span>
-                                    </div>
-                                    <dl class="txt_list">
-                                        <dt>한의연-미병</dt>
-                                        <dd>이 어플리케이션은 일상 생활에서이 어플리케이션은 일상 생활에서</dd>
+                                        <dt>{{pflist.tit}}</dt>
+                                        <dd>
+                                            <span class="txt">{{pflist.subj}}</span>
+                                            <div class="s_spec">
+                                                <span class="s_label {{pflistSLabel}}" ng-repeat="pflistSLabel in pfListSepc(pflist.mode)"></span>
+                                            </div>
+                                        </dd>
                                     </dl>
                                 </div>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="contents" style="width: calc(100% - 590px); float: left; height: 100%;">
+                <div class="contents">
                     <div class="cont_hd">
                         <span class="tit">
-                            <strong>한의연-미병</strong> 방에 입장하셨습니다.
+                            <strong>{{pfCurrt.tit}}</strong>
+                            <span class="op_nm"> 방에 입장하셨습니다.</span>
                         </span>
                         <div class="cont_utl">
                             <a href="#" class="cutl link" title="링크바로가기"></a>
                             <a href="#" class="cutl prev" title="링크바로가기"></a>
                             <a href="#" class="cutl next" title="링크바로가기"></a>
+                            <a href="#" class="cutl opt" title="기능"></a>
                         </div>
                     </div>
                     <ul class="cont_msg">
@@ -173,22 +192,7 @@
                                 </div>
                                 <div class="msg_area">
                                     <span class="txt">
-                                        미병을 평가하고 관리방법을 제공하기 위한 한의학 기반 예방관리 프로그램입니다
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="msg_bx">
-                            <div class="msg_in">
-                                <div class="msg_img">
-                                    <span class="img">
-                                        <img src="/images/sample.png" alt="" />
-                                    </span>
-                                    <div class="nm">임희재</div>
-                                </div>
-                                <div class="msg_area">
-                                    <span class="txt">
-                                        미병을 평가하고 관리
+                                        {{pfCurrt.info}}
                                     </span>
                                 </div>
                             </div>
@@ -197,22 +201,22 @@
                             <div class="msg_in">
                                 <div class="msg_img">
                                     <span class="img">
-                                        <img src="/images/sample.png" alt="" />
+                                        <img src="{{pfCurrt.thumb}}" alt="" />
                                     </span>
-                                    <div class="nm">미병-한의연</div>
+                                    <div class="nm">{{pfCurrt.tit}}</div>
                                 </div>
                                 <div class="msg_area">
                                     <div class="pf_info">
                                         <div class="pfinfo_in">
                                             <div class="thumb">
                                                 <span class="img">
-                                                    <img src="/images/sample2.png" alt="">
+                                                    <img src="{{pfCurrt.thumb}}" alt="">
                                                 </span>
                                             </div>
                                             <div class="txt_bx">
                                                 <dl class="txt">
-                                                    <dt>한의연-미병</dt>
-                                                    <dd>한국한의학연구소</dd>
+                                                    <dt>{{pfCurrt.tit}}</dt>
+                                                    <dd>{{pfCurrt.clt}}</dd>
                                                 </dl>
                                                 <div class="s_spec">
                                                     <span class="s_label res">접근성</span>
@@ -235,19 +239,14 @@
                             <div class="msg_in">
                                 <div class="msg_img">
                                     <span class="img">
-                                        <img src="/images/sample.png" alt="" />
+                                        <img src="{{pfCurrt.thumb}}" alt="" />
                                     </span>
-                                    <div class="nm">미병-한의연</div>
+                                    <div class="nm">{{pfCurrt.tit}}</div>
                                 </div>
                                 <div class="msg_area">
-                                    <div class="thumb">
+                                    <div class="thumb" ng-repeat="item in pfCurrt.subImgs">
                                         <span class="img">
-                                            <img src="/images/thumb/pp_img03.jpg" alt="" />
-                                        </span>
-                                    </div>
-                                    <div class="thumb">
-                                        <span class="img">
-                                            <img src="/images/thumb/pp_img12.jpg" alt="" />
+                                            <img src="{{item}}" alt="" />
                                         </span>
                                     </div>
                                 </div>
@@ -261,22 +260,20 @@
                     <a href="javascript:;" title="패널" class="pannel_btn"></a>
                 </div>
                 <div class="asp_cont">
-                    <span class="img">
-                        <img src="/images/sample2.png" alt="" />
-                    </span>
+                    <span class="img" style="background-image: url({{pfCurrt.thumb}});"></span>
                     <div class="txts">
-                        <div class="tit">한의연-미병</div>
-                        <span class="stit">한국한의학연구소</span>
+                        <div class="tit">{{pfCurrt.tit}}</div>
+                        <span class="stit">{{pfCurrt.clt}}</span>
                     </div>
                 </div>
                 <div class="asp_listbx">
                     <dl class="asp_list clearfix">
                         <dt>프로젝트명:</dt>
-                        <dd>한의연-미병</dd>
+                        <dd>{{pfCurrt.tit}}</dd>
                     </dl>
                     <dl class="asp_list clearfix">
                         <dt>설명:</dt>
-                        <dd>이 어플리케이션은 일상 생활에서 사용자의 미병을 평가하고 관리방법을 제공하기 위한 한의학 기반 예방관리 프로그램입니다. 현재 등록된 어플리케이션은 임상연구 수행을 위한 버전으로, 일반 사용자가 활용할 때는 자료 또는 기능에 제한이 있습니다.</dd>
+                        <dd>{{pfCurrt.subj}}</dd>
                     </dl>
                     <dl class="asp_list clearfix">
                         <dt>작업기여도:</dt>
@@ -294,13 +291,32 @@
                                     <span class="ccl"></span>
                                     <span class="ccl"></span>
                                 </div>
-                                <span class="num">70%</span>
+                                <span class="num">100</span>
                             </div>
                         </dd>
                     </dl>
                 </div>
             </div>
         </div>
+        <div class="laypop layPop">
+            <div class="layp_in">
+                <div class="lay_hd warr">
+                    <span class="tit">
+                        <strong>바쁘시겠지만,</strong> 읽고 검토해주시길 바랍니다.
+                    </span>
+                </div>
+                <div class="lay_cont">
+                    <p class="msg">
+                        어렸을 적부터 독립심과 지독한 근성을 타고났습니다. 원하고 이루고자 하는 일을 목표로 삼아 힘들고 외로운 것을 목표달성을 꿈꾸며 참았습니다. 웹디자인을 처음 배우려고 하던 시절 고액의 학원비가 문제였고 학원비 감당을 위해 아르바이트를 시작하였습니다. 하루 16~17시간, 월 1회 휴무로 고된 일을 감당하여 3개월 반 만에 550만 원이라는 돈을 벌 수 있었습니다. 그 후 2개월의 아르바이트 생활을 더 하여 물집과 굳은살로 덮어버린 제 손을 보며 한숨이 나오긴 했지만, 학원 등록 후 목표를 향해 더욱 힘찬 발걸음을 내디딜 수 있는 원동력이 되기도 하였습니다.
+                    </p>
+                </div>
+                <div class="lay_ft">
+                    <a href="#" class="lay_btn def layBtnDefClose">다시보지않기</a>
+                    <a href="#" class="lay_btn comt layBtnClose">확인</a>
+                </div>
+            </div>
+        </div>
+        <div class="dimm"></div>
     </body>
 
 </html>
